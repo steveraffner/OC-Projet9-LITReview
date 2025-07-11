@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Créer un billet - LITReview{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Créer un billet</h1>
+        <p class="text-muted">Demandez une critique sur un livre ou un article</p>
+        
+        <form method="post" enctype="multipart/form-data" novalidate aria-label="Formulaire de création de billet">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.title.label_tag }}
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="text-danger" role="alert">
+                        {% for error in form.title.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="text-danger" role="alert">
+                        {% for error in form.description.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.image.label_tag }}
+                {{ form.image }}
+                {% if form.image.errors %}
+                    <div class="text-danger" role="alert">
+                        {% for error in form.image.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <small class="form-text text-muted">
+                    Formats acceptés : JPG, PNG, GIF. Taille max : 5MB
+                </small>
+            </div>
+            
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-primary">
+                    Créer le billet
+                </button>
+                <a href="{% url 'feed' %}" class="btn btn-secondary">
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>💡 Conseils</h5>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>Soyez précis dans le titre</li>
+                    <li>Décrivez le type de critique souhaité</li>
+                    <li>Ajoutez une image si possible</li>
+                    <li>Mentionnez l'auteur si pertinent</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

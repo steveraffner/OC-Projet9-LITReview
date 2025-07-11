@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LITReview - Plateforme de critique de livres et articles">
+    <title>{% block title %}LITReview{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="Navigation principale">
+        <div class="container">
+            <a href="{% url 'feed' %}" class="navbar-brand">LITReview</a>
+            {% if user.is_authenticated %}
+                <ul class="navbar-nav">
+                    <li><a href="{% url 'feed' %}" class="nav-link" aria-label="Accéder au flux principal">Flux</a></li>
+                    <li><a href="{% url 'user_posts' %}" class="nav-link" aria-label="Voir mes posts">Mes posts</a></li>
+                    <li><a href="{% url 'follow_list' %}" class="nav-link" aria-label="Gérer mes abonnements">Abonnements</a></li>
+                    <li><a href="{% url 'logout' %}" class="nav-link" aria-label="Se déconnecter">Déconnexion</a></li>
+                </ul>
+            {% else %}
+                <ul class="navbar-nav">
+                    <li><a href="{% url 'login' %}" class="nav-link" aria-label="Se connecter">Connexion</a></li>
+                    <li><a href="{% url 'signup' %}" class="nav-link" aria-label="Créer un compte">Inscription</a></li>
+                </ul>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container" role="main">
+        {% if messages %}
+            <div class="messages" role="alert" aria-live="polite">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="text-center text-muted mt-3" role="contentinfo">
+        <div class="container">
+            <hr>
+            <p>&copy; 2025 LITReview - Plateforme de critique de livres</p>
+        </div>
+    </footer>
+</body>
+</html>

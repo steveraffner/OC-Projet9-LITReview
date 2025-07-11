@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Créer une critique avec billet - LITReview{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Créer une critique</h1>
+        <p class="text-muted">Créez un billet et votre critique en même temps</p>
+        
+        <form method="post" enctype="multipart/form-data" novalidate aria-label="Formulaire de création de billet et critique">
+            {% csrf_token %}
+            
+            <!-- Section Livre/Article -->
+            <fieldset class="border p-3 mb-4">
+                <legend class="w-auto px-2 h5">📚 Livre/Article</legend>
+                
+                <div class="form-group">
+                    {{ form.ticket_title.label_tag }}
+                    {{ form.ticket_title }}
+                    {% if form.ticket_title.errors %}
+                        <div class="text-danger" role="alert">
+                            {% for error in form.ticket_title.errors %}
+                                <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.ticket_description.label_tag }}
+                    {{ form.ticket_description }}
+                    {% if form.ticket_description.errors %}
+                        <div class="text-danger" role="alert">
+                            {% for error in form.ticket_description.errors %}
+                                <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.ticket_image.label_tag }}
+                    {{ form.ticket_image }}
+                    {% if form.ticket_image.errors %}
+                        <div class="text-danger" role="alert">
+                            {% for error in form.ticket_image.errors %}
+                                <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <small class="form-text text-muted">
+                        Formats acceptés : JPG, PNG, GIF. Taille max : 5MB
+                    </small>
+                </div>
+            </fieldset>
+            
+            <!-- Section Critique -->
+            <fieldset class="border p-3 mb-4">
+                <legend class="w-auto px-2 h5">⭐ Votre critique</legend>
+                
+                <div class="form-group">
+                    {{ form.review_headline.label_tag }}
+                    {{ form.review_headline }}
+                    {% if form.review_headline.errors %}
+                        <div class="text-danger" role="alert">
+                            {% for error in form.review_headline.errors %}
+                                <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.review_rating.label_tag }}
+                    {{ form.review_rating }}
+                    {% if form.review_rating.errors %}
+                        <div class="text-danger" role="alert">
+                            {% for error in form.review_rating.errors %}
+                                <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.review_body.label_tag }}
+                    {{ form.review_body }}
+                    {% if form.review_body.errors %}
+                        <div class="text-danger" role="alert">
+                            {% for error in form.review_body.errors %}
+                                <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </fieldset>
+            
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-primary">
+                    Publier le billet et la critique
+                </button>
+                <a href="{% url 'feed' %}" class="btn btn-secondary">
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>ℹ️ Information</h5>
+            </div>
+            <div class="card-body">
+                <p>Cette fonction vous permet de créer un billet ET votre critique en une seule fois.</p>
+                <p><strong>Idéal pour :</strong></p>
+                <ul>
+                    <li>Critiquer un livre que vous venez de lire</li>
+                    <li>Partager votre avis sur un article</li>
+                    <li>Recommander une lecture</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

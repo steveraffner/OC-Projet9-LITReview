@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Créer une critique - LITReview{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Créer une critique</h1>
+        <p class="text-muted">En réponse au billet de {{ ticket.user.username }}</p>
+        
+        <!-- Affichage du billet -->
+        <div class="card mb-4" style="background-color: #f8f9fa;">
+            <div class="card-header">
+                <h5>Livre/Article à critiquer</h5>
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">{{ ticket.title }}</h6>
+                {% if ticket.description %}
+                    <p class="card-text">{{ ticket.description }}</p>
+                {% endif %}
+                {% if ticket.image %}
+                    <img src="{{ ticket.image.url }}" 
+                         alt="Image de couverture pour {{ ticket.title }}" 
+                         style="max-width: 200px; height: auto;">
+                {% endif %}
+                <p class="text-muted text-small">
+                    Demandé par <strong>{{ ticket.user.username }}</strong> le {{ ticket.time_created|date:'d/m/Y' }}
+                </p>
+            </div>
+        </div>
+        
+        <!-- Formulaire de critique -->
+        <form method="post" novalidate aria-label="Formulaire de création de critique">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.headline.label_tag }}
+                {{ form.headline }}
+                {% if form.headline.errors %}
+                    <div class="text-danger" role="alert">
+                        {% for error in form.headline.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.rating.label_tag }}
+                {{ form.rating }}
+                {% if form.rating.errors %}
+                    <div class="text-danger" role="alert">
+                        {% for error in form.rating.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.body.label_tag }}
+                {{ form.body }}
+                {% if form.body.errors %}
+                    <div class="text-danger" role="alert">
+                        {% for error in form.body.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-primary">
+                    Publier la critique
+                </button>
+                <a href="{% url 'feed' %}" class="btn btn-secondary">
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>💡 Conseils pour une bonne critique</h5>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>Soyez constructif et respectueux</li>
+                    <li>Justifiez votre note</li>
+                    <li>Évitez les spoilers</li>
+                    <li>Partagez vos impressions personnelles</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

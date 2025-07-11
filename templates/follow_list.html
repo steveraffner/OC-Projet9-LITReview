@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Abonnements - LITReview{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Abonnements</h1>
+        
+        <div class="action-buttons mb-4">
+            <a href="{% url 'follow_create' %}" class="btn btn-primary" aria-label="Suivre un nouvel utilisateur">
+                Suivre un utilisateur
+            </a>
+        </div>
+        
+        <!-- Utilisateurs que je suis -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Abonnements ({{ following.count }})</h2>
+                <p class="text-muted mb-0">Utilisateurs que vous suivez</p>
+            </div>
+            <div class="card-body">
+                {% if following %}
+                    <div class="list-group">
+                        {% for follow in following %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ follow.followed_user.username }}</strong>
+                                    {% if follow.followed_user.first_name or follow.followed_user.last_name %}
+                                        <span class="text-muted">
+                                            ({{ follow.followed_user.first_name }} {{ follow.followed_user.last_name }})
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <a href="{% url 'follow_delete' follow.id %}" 
+                                   class="btn btn-sm btn-outline-danger"
+                                   aria-label="Arrêter de suivre {{ follow.followed_user.username }}">
+                                    Se désabonner
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">Vous ne suivez aucun utilisateur pour le moment.</p>
+                    <a href="{% url 'follow_create' %}" class="btn btn-primary">
+                        Suivre votre premier utilisateur
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Utilisateurs qui me suivent -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Abonnés ({{ followers.count }})</h2>
+                <p class="text-muted mb-0">Utilisateurs qui vous suivent</p>
+            </div>
+            <div class="card-body">
+                {% if followers %}
+                    <div class="list-group">
+                        {% for follow in followers %}
+                            <div class="list-group-item">
+                                <strong>{{ follow.user.username }}</strong>
+                                {% if follow.user.first_name or follow.user.last_name %}
+                                    <span class="text-muted">
+                                        ({{ follow.user.first_name }} {{ follow.user.last_name }})
+                                    </span>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">Aucun utilisateur ne vous suit pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>ℹ️ À propos des abonnements</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Quand vous suivez un utilisateur :</strong></p>
+                <ul>
+                    <li>Vous voyez ses billets dans votre flux</li>
+                    <li>Vous voyez ses critiques dans votre flux</li>
+                    <li>Il peut voir que vous le suivez</li>
+                </ul>
+                
+                <p><strong>Vos critiques apparaissent aussi :</strong></p>
+                <ul>
+                    <li>Dans le flux des personnes qui vous suivent</li>
+                    <li>Pour l'auteur du billet que vous critiquez</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5>📊 Statistiques</h5>
+            </div>
+            <div class="card-body">
+                <p>Vous suivez : <strong>{{ following.count }}</strong> utilisateur{{ following.count|pluralize }}</p>
+                <p>Vous êtes suivi par : <strong>{{ followers.count }}</strong> utilisateur{{ followers.count|pluralize }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

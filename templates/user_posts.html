@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Mes posts - LITReview{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Mes posts</h1>
+        <p class="text-muted">Tous vos billets et critiques</p>
+        
+        <div class="action-buttons mb-4">
+            <a href="{% url 'ticket_create' %}" class="btn btn-primary" aria-label="Créer un nouveau billet">
+                Nouveau billet
+            </a>
+            <a href="{% url 'review_create_with_ticket' %}" class="btn btn-secondary" aria-label="Créer une nouvelle critique">
+                Nouvelle critique
+            </a>
+        </div>
+        
+        {% if posts %}
+            {% for post in posts %}
+                {% if post.content_type == 'TICKET' %}
+                    {% include 'ticket_snippet.html' with ticket=post %}
+                {% else %}
+                    {% include 'review_snippet.html' with review=post %}
+                {% endif %}
+            {% endfor %}
+            
+            <!-- Pagination -->
+            {% if posts.has_other_pages %}
+                <nav aria-label="Pagination de mes posts">
+                    <ul class="pagination">
+                        {% if posts.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1" aria-label="Première page">&laquo;&laquo;</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Page précédente">&laquo;</a>
+                            </li>
+                        {% endif %}
+                        
+                        <li class="page-item active">
+                            <span class="page-link">
+                                Page {{ posts.number }} sur {{ posts.paginator.num_pages }}
+                            </span>
+                        </li>
+                        
+                        {% if posts.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Page suivante">&raquo;</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ posts.paginator.num_pages }}" aria-label="Dernière page">&raquo;&raquo;</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Aucun post pour le moment</h5>
+                    <p class="card-text">Vous n'avez encore créé aucun billet ou critique.</p>
+                    <div class="action-buttons">
+                        <a href="{% url 'ticket_create' %}" class="btn btn-primary">
+                            Créer mon premier billet
+                        </a>
+                        <a href="{% url 'review_create_with_ticket' %}" class="btn btn-secondary">
+                            Créer ma première critique
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>📊 Mes statistiques</h5>
+            </div>
+            <div class="card-body">
+                {% if posts %}
+                    <p>Total de posts : <strong>{{ posts.paginator.count }}</strong></p>
+                    <p>Page {{ posts.number }} sur {{ posts.paginator.num_pages }}</p>
+                {% else %}
+                    <p>Aucun post pour le moment</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5>💡 Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="quick-actions">
+                    <a href="{% url 'feed' %}" class="btn btn-outline-primary quick-action-btn">
+                        <span class="action-icon">🏠</span>
+                        <span class="action-text">Retour au flux</span>
+                    </a>
+                    <a href="{% url 'follow_list' %}" class="btn btn-outline-secondary quick-action-btn">
+                        <span class="action-icon">👥</span>
+                        <span class="action-text">Gérer mes abonnements</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

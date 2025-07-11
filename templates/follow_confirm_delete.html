@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Se désabonner - LITReview{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Se désabonner</h1>
+        
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">⚠️ Confirmation</h4>
+            <p>Vous êtes sur le point de vous désabonner de :</p>
+            <hr>
+            <p class="mb-0">
+                <strong>{{ follow.followed_user.username }}</strong>
+                {% if follow.followed_user.first_name or follow.followed_user.last_name %}
+                    <span class="text-muted">
+                        ({{ follow.followed_user.first_name }} {{ follow.followed_user.last_name }})
+                    </span>
+                {% endif %}
+            </p>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ follow.followed_user.username }}</h5>
+                <p class="card-text">
+                    Vous suivez cet utilisateur depuis votre inscription.
+                </p>
+                <p class="text-muted">
+                    Si vous vous désabonnez, vous ne verrez plus ses publications dans votre flux.
+                    Vous pourrez toujours vous réabonner plus tard.
+                </p>
+            </div>
+        </div>
+        
+        <form method="post" aria-label="Formulaire de confirmation de désabonnement">
+            {% csrf_token %}
+            <div class="action-buttons mt-3">
+                <button type="submit" class="btn btn-warning">
+                    Oui, me désabonner
+                </button>
+                <a href="{% url 'follow_list' %}" class="btn btn-secondary">
+                    Annuler
+                </a>
+            </div>
+        </form>
+        
+        <div class="alert alert-info mt-3" role="alert">
+            <small>
+                <strong>Note :</strong> Cette action n'affectera pas vos critiques existantes ou vos billets.
+                L'utilisateur ne sera pas notifié de votre désabonnement.
+            </small>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+<!-- Snippet pour afficher une critique -->
+<article class="card" role="article" aria-labelledby="review-{{ review.id }}-title">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="text-muted text-small">
+                <strong>{{ review.user.username }}</strong> a publié une critique
+            </span>
+            <time datetime="{{ review.time_created|date:'c' }}" class="text-muted text-small">
+                {{ review.time_created|date:'d/m/Y à H:i' }}
+            </time>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        <h2 id="review-{{ review.id }}-title" class="card-title">{{ review.headline }}</h2>
+        
+        <div class="rating mb-3" aria-label="Note: {{ review.rating }} sur 5 étoiles">
+            {% for i in "12345" %}
+                {% if forloop.counter <= review.rating %}
+                    <span aria-hidden="true">★</span>
+                {% else %}
+                    <span aria-hidden="true">☆</span>
+                {% endif %}
+            {% endfor %}
+            <span class="sr-only">{{ review.rating }} étoiles sur 5</span>
+        </div>
+        
+        {% if review.body %}
+            <p class="card-text">{{ review.body|linebreaks }}</p>
+        {% endif %}
+        
+        <!-- Billet associé -->
+        <div class="card mt-3" style="background-color: #f8f9fa;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Livre/Article</h6>
+                <h5 class="card-title">{{ review.ticket.title }}</h5>
+                
+                {% if review.ticket.description %}
+                    <p class="card-text text-small">{{ review.ticket.description|truncatewords:20 }}</p>
+                {% endif %}
+                
+                {% if review.ticket.image %}
+                    <img src="{{ review.ticket.image.url }}" 
+                         alt="Image de couverture pour {{ review.ticket.title }}" 
+                         class="card-img"
+                         style="max-width: 100px;">
+                {% endif %}
+                
+                <p class="text-muted text-small">
+                    Billet de <strong>{{ review.ticket.user.username }}</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    {% if review.user == request.user %}
+        <div class="card-footer">
+            <div class="action-buttons">
+                <a href="{% url 'review_update' review.id %}" 
+                   class="btn btn-sm btn-secondary"
+                   aria-label="Modifier la critique {{ review.headline }}">
+                    Modifier
+                </a>
+                <a href="{% url 'review_delete' review.id %}" 
+                   class="btn btn-sm btn-danger"
+                   aria-label="Supprimer la critique {{ review.headline }}">
+                    Supprimer
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</article>

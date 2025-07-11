@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Supprimer le billet - LITReview{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Supprimer le billet</h1>
+        
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">⚠️ Attention !</h4>
+            <p>Vous êtes sur le point de supprimer définitivement ce billet :</p>
+            <hr>
+            <p class="mb-0"><strong>{{ ticket.title }}</strong></p>
+            {% if ticket.description %}
+                <p class="text-muted">{{ ticket.description|truncatewords:20 }}</p>
+            {% endif %}
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ ticket.title }}</h5>
+                {% if ticket.description %}
+                    <p class="card-text">{{ ticket.description }}</p>
+                {% endif %}
+                {% if ticket.image %}
+                    <img src="{{ ticket.image.url }}" 
+                         alt="Image du billet à supprimer" 
+                         style="max-width: 200px; height: auto;">
+                {% endif %}
+                <p class="text-muted text-small">
+                    Créé le {{ ticket.time_created|date:'d/m/Y à H:i' }}
+                </p>
+            </div>
+        </div>
+        
+        <form method="post" aria-label="Formulaire de confirmation de suppression">
+            {% csrf_token %}
+            <div class="action-buttons mt-3">
+                <button type="submit" class="btn btn-danger">
+                    Oui, supprimer définitivement
+                </button>
+                <a href="{% url 'feed' %}" class="btn btn-secondary">
+                    Annuler
+                </a>
+            </div>
+        </form>
+        
+        <div class="alert alert-info mt-3" role="alert">
+            <small>
+                <strong>Note :</strong> Cette action supprimera également toutes les critiques associées à ce billet.
+            </small>
+        </div>
+    </div>
+</div>
+{% endblock %}

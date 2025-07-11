@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Modifier le billet - LITReview{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Modifier le billet</h1>
+        <p class="text-muted">{{ ticket.title }}</p>
+        
+        <form method="post" enctype="multipart/form-data" novalidate aria-label="Formulaire de modification de billet">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.title.label_tag }}
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="text-danger" role="alert">
+                        {% for error in form.title.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="text-danger" role="alert">
+                        {% for error in form.description.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.image.label_tag }}
+                {% if ticket.image %}
+                    <div class="mb-2">
+                        <p>Image actuelle :</p>
+                        <img src="{{ ticket.image.url }}" 
+                             alt="Image actuelle du billet" 
+                             style="max-width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {{ form.image }}
+                {% if form.image.errors %}
+                    <div class="text-danger" role="alert">
+                        {% for error in form.image.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <small class="form-text text-muted">
+                    Laissez vide pour conserver l'image actuelle. Formats acceptés : JPG, PNG, GIF. Taille max : 5MB
+                </small>
+            </div>
+            
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-primary">
+                    Enregistrer les modifications
+                </button>
+                <a href="{% url 'feed' %}" class="btn btn-secondary">
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

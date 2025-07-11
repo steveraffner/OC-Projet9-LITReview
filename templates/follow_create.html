@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Suivre un utilisateur - LITReview{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Suivre un utilisateur</h1>
+        <p class="text-muted">Ajoutez un utilisateur à vos abonnements pour voir ses publications dans votre flux</p>
+        
+        <form method="post" novalidate aria-label="Formulaire pour suivre un utilisateur">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.followed_user.label_tag }}
+                {{ form.followed_user }}
+                {% if form.followed_user.errors %}
+                    <div class="text-danger" role="alert">
+                        {% for error in form.followed_user.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <small class="form-text text-muted">
+                    Entrez le nom d'utilisateur exact (sensible à la casse)
+                </small>
+            </div>
+            
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-primary">
+                    Suivre cet utilisateur
+                </button>
+                <a href="{% url 'follow_list' %}" class="btn btn-secondary">
+                    Retour aux abonnements
+                </a>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>💡 Conseils</h5>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>Le nom d'utilisateur doit être exact</li>
+                    <li>Vous ne pouvez pas vous suivre vous-même</li>
+                    <li>Vous ne pouvez pas suivre un utilisateur deux fois</li>
+                    <li>L'utilisateur sera notifié qu'il a un nouvel abonné</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5>🔍 Comment trouver des utilisateurs ?</h5>
+            </div>
+            <div class="card-body">
+                <p>Vous pouvez découvrir de nouveaux utilisateurs :</p>
+                <ul>
+                    <li>En regardant les auteurs des billets</li>
+                    <li>En regardant les auteurs des critiques</li>
+                    <li>En explorant les abonnements d'autres utilisateurs</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

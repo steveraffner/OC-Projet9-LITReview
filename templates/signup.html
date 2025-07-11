@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Inscription - LITReview{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h1 class="auth-title">Créer un compte</h1>
+    
+    <form method="post" novalidate aria-label="Formulaire d'inscription">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="text-danger" role="alert">
+                    {% for error in form.username.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.username.help_text %}
+                <small class="form-text text-muted">{{ form.username.help_text }}</small>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <div class="text-danger" role="alert">
+                    {% for error in form.password1.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.password1.help_text %}
+                <small class="form-text text-muted">{{ form.password1.help_text }}</small>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <div class="text-danger" role="alert">
+                    {% for error in form.password2.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.password2.help_text %}
+                <small class="form-text text-muted">{{ form.password2.help_text }}</small>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;">
+            Créer mon compte
+        </button>
+    </form>
+    
+    <div class="text-center mt-3">
+        <p>Déjà un compte ? <a href="{% url 'login' %}" aria-label="Se connecter avec un compte existant">Se connecter</a></p>
+    </div>
+</div>
+{% endblock %}

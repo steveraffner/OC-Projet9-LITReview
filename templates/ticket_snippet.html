@@ -1,0 +1,50 @@
+<!-- Snippet pour afficher un billet -->
+<article class="card" role="article" aria-labelledby="ticket-{{ ticket.id }}-title">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="text-muted text-small">
+                <strong>{{ ticket.user.username }}</strong> a demandé une critique
+            </span>
+            <time datetime="{{ ticket.time_created|date:'c' }}" class="text-muted text-small">
+                {{ ticket.time_created|date:'d/m/Y à H:i' }}
+            </time>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        <h2 id="ticket-{{ ticket.id }}-title" class="card-title">{{ ticket.title }}</h2>
+        
+        {% if ticket.description %}
+            <p class="card-text">{{ ticket.description|linebreaks }}</p>
+        {% endif %}
+        
+        {% if ticket.image %}
+            <img src="{{ ticket.image.url }}" 
+                 alt="Image de couverture pour {{ ticket.title }}" 
+                 class="card-img">
+        {% endif %}
+    </div>
+    
+    <div class="card-footer">
+        <div class="action-buttons">
+            {% if ticket.user == request.user %}
+                <a href="{% url 'ticket_update' ticket.id %}" 
+                   class="btn btn-sm btn-secondary"
+                   aria-label="Modifier le billet {{ ticket.title }}">
+                    Modifier
+                </a>
+                <a href="{% url 'ticket_delete' ticket.id %}" 
+                   class="btn btn-sm btn-danger"
+                   aria-label="Supprimer le billet {{ ticket.title }}">
+                    Supprimer
+                </a>
+            {% else %}
+                <a href="{% url 'review_create' ticket.id %}" 
+                   class="btn btn-sm btn-primary"
+                   aria-label="Créer une critique pour {{ ticket.title }}">
+                    Créer une critique
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</article>

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Supprimer la critique - LITReview{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Supprimer la critique</h1>
+        
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">⚠️ Attention !</h4>
+            <p>Vous êtes sur le point de supprimer définitivement cette critique :</p>
+            <hr>
+            <p class="mb-0"><strong>{{ review.headline }}</strong></p>
+            <p class="text-muted">Note : {{ review.rating }} étoiles</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ review.headline }}</h5>
+                
+                <div class="rating mb-3" aria-label="Note: {{ review.rating }} sur 5 étoiles">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= review.rating %}
+                            <span aria-hidden="true">★</span>
+                        {% else %}
+                            <span aria-hidden="true">☆</span>
+                        {% endif %}
+                    {% endfor %}
+                    <span class="sr-only">{{ review.rating }} étoiles sur 5</span>
+                </div>
+                
+                {% if review.body %}
+                    <p class="card-text">{{ review.body|truncatewords:50 }}</p>
+                {% endif %}
+                
+                <p class="text-muted text-small">
+                    Créée le {{ review.time_created|date:'d/m/Y à H:i' }}
+                    <br>
+                    En réponse au billet : <strong>{{ review.ticket.title }}</strong>
+                </p>
+            </div>
+        </div>
+        
+        <form method="post" aria-label="Formulaire de confirmation de suppression">
+            {% csrf_token %}
+            <div class="action-buttons mt-3">
+                <button type="submit" class="btn btn-danger">
+                    Oui, supprimer définitivement
+                </button>
+                <a href="{% url 'feed' %}" class="btn btn-secondary">
+                    Annuler
+                </a>
+            </div>
+        </form>
+        
+        <div class="alert alert-info mt-3" role="alert">
+            <small>
+                <strong>Note :</strong> Cette action ne supprimera que votre critique. Le billet original restera intact.
+            </small>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,4 @@
+Django>=4.0
+Pillow>=9.0
+flake8>=4.0
+black>=22.0
