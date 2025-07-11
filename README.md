@@ -1,6 +1,14 @@
 # LITReview - Plateforme de critique de livres et articles
 
+![Python](https://img.shields.io/badge/Python-3.13-blue.svg)
+![Django](https://img.shields.io/badge/Django-5.2-green.svg)
+![License](https://img.shields.io/badge/License-Educational-orange.svg)
+![PEP8](https://img.shields.io/badge/Code%20Style-PEP8-brightgreen.svg)
+![WCAG](https://img.shields.io/badge/Accessibility-WCAG-blue.svg)
+
 LITReview est une application web Django qui permet aux utilisateurs de demander des critiques de livres ou d'articles et de publier leurs propres critiques.
+
+**🔗 Projet GitHub :** https://github.com/steveraffner/OC-Projet9-LITReview
 
 ## 🚀 Fonctionnalités
 
@@ -157,6 +165,73 @@ litreview/
     └── migrations/        # Migrations de base de données
 ```
 
+## 🚀 Déploiement Git
+
+Pour faciliter les déploiements futurs, un script est inclus :
+
+```bash
+# Déployer une nouvelle version
+./git_deploy.sh "Description des changements"
+```
+
+Le script automatise :
+- `git add .`
+- `git commit -m "message"`
+- `git push origin main`
+
+## 📸 Captures d'écran
+
+### Page de connexion
+Interface d'authentification accessible avec validation des erreurs
+
+### Flux principal
+- Affichage des billets et critiques
+- Actions rapides dans la sidebar
+- Pagination responsive
+
+### Gestion des billets
+- Création avec upload d'images
+- Modification et suppression
+- Validation des formulaires
+
+### Système de critiques
+- Notation par étoiles (0-5)
+- Critiques en réponse ou avec nouveau billet
+- Affichage du billet associé
+
+### Abonnements
+- Liste des utilisateurs suivis
+- Gestion des abonnements
+- Statistiques d'utilisation
+
+## 🌐 URLs principales
+
+- `/` - Flux principal (authentification requise)
+- `/login/` - Page de connexion
+- `/signup/` - Page d'inscription
+- `/ticket/create/` - Créer un billet
+- `/review/create-with-ticket/` - Créer une critique avec billet
+- `/follow/` - Gérer les abonnements
+- `/my-posts/` - Mes publications
+
+## 📂 Structure GitHub
+
+```
+OC-Projet9-LITReview/
+├── 📁 litterevu/          # Application Django principale
+├── 📁 templates/          # Templates HTML (18 fichiers)
+├── 📁 static/css/         # Feuilles de style
+├── 📁 media/              # Uploads utilisateur
+├── 📄 README.md           # Documentation
+├── 📄 requirements.txt    # Dépendances Python
+├── 📄 manage.py           # Script Django
+├── 📄 create_test_data.py # Données de test
+├── 📄 git_deploy.sh       # Script de déploiement
+└── 📄 .gitignore          # Fichiers ignorés
+```
+
+Ce projet est développé dans le cadre du parcours OpenClassrooms Python.
+
 ## 🔒 Sécurité
 
 - Protection CSRF sur tous les formulaires
@@ -220,4 +295,4 @@ Pour toute question ou problème :
 
 ---
 
-**Développé avec ❤️ en Python & Django**
+**Développé avec ❤️ en Python & Django par Steve Raffner**
