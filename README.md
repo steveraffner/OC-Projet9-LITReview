@@ -283,7 +283,13 @@ black .
 4. Push vers la branche
 5. Ouvrir une Pull Request
 
-## 📄 Licence
+## �‍💻 Auteur
+
+**Steve Raffner**
+- GitHub : [@steveraffner](https://github.com/steveraffner)
+- Projet : Développeur d'application Python - OpenClassrooms
+
+## �📄 Licence
 
 Ce projet est développé dans le cadre du parcours OpenClassrooms Python.
 
