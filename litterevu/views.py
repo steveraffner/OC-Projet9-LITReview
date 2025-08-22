@@ -46,10 +46,12 @@ def feed(request):
     ).annotate(content_type=Value("REVIEW", CharField()))
 
     # Ajouter les critiques en réponse aux billets de l'utilisateur connecté
+    # mais seulement celles qui ne sont pas déjà incluses dans les critiques ci-dessus
     own_tickets = Ticket.objects.filter(user=request.user)
     reviews_on_own_tickets = (
         Review.objects.filter(ticket__in=own_tickets)
         .exclude(user=request.user)
+        .exclude(user__in=followed_users)
         .annotate(content_type=Value("REVIEW", CharField()))
     )
 
