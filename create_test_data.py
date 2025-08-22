@@ -1,24 +1,13 @@
-#!/usr/bin/env python
-"""
-Script pour créer des données de test pour LITReview
-"""
 import os
 import django
-from django.contrib.auth.models import User  # noqa: E402
 
-
-def setup_django():
-    """Configure Django avant d'importer les modèles"""
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "litreview.settings")
-    django.setup()
-
-
-setup_django()
-
-from litterevu.models import Ticket, Review, UserFollows  # noqa: E402
-
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "litreview.settings")
+django.setup()
 
 def create_test_data():
+    """Crée des utilisateurs, tickets, reviews et abonnements de test pour LITReview."""
+    from django.contrib.auth.models import User
+    from litterevu.models import Ticket, Review, UserFollows
     print("Création des données de test...")
 
     # Créer des utilisateurs de test
@@ -59,7 +48,7 @@ def create_test_data():
             print(f"✅ Utilisateur créé : {user.username}")
         else:
             print(f"⚠️ Utilisateur existe déjà : {user.username}")
-        users[user_data["username"]] = user
+        users[user.username] = user
 
     # Créer des billets
     tickets_data = [
@@ -174,3 +163,9 @@ def create_test_data():
 
 if __name__ == "__main__":
     create_test_data()
+
+import os
+import django
+
+
+
