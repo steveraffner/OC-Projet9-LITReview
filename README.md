@@ -57,7 +57,7 @@ LITReview est une application web Django qui permet aux utilisateurs de demander
 
 ### 1. Cloner le projet
 ```bash
-git clone <url-du-repo>
+git clone https://github.com/steveraffner/OC-Projet9-LITReview.git
 cd litreview
 ```
 
@@ -90,7 +90,7 @@ python manage.py createsuperuser
 
 ### 6. Charger les données de test (optionnel)
 ```bash
-python manage.py loaddata fixtures/test_data.json
+python create_test_data.py
 ```
 
 ### 7. Lancer le serveur de développement
